@@ -7,12 +7,12 @@ module Api::V1
 
     def index
       posts = Post.all
-      render json: posts
+      render json: posts.as_json(include: { comments: { only: [:id, :body] }, user: { only: [:id, :email] } })
     end
 
     def show
       post = Post.find(params[:id])
-      render json: post
+      render json: post.as_json(include: :comments)
     end
 
     def create
